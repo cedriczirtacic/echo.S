@@ -1,5 +1,5 @@
 # echo.S
-minimalistic echo.
+minimalistic echo (**178 bytes**).
 
 ## Idea
 The idea came from this faissaloo's [echo](https://github.com/faissaloo/echo/blob/master/echo.asm) and [this article](http://www.muppetlabs.com/~breadbox/software/tiny/teensy.html) but ported for GAS assembly language and using the **as** assembler and **ld** linker.
