@@ -90,7 +90,7 @@ _print:
     movb $1, %dl
     syscall
 
-    cmp $0, 8(%rbp)
+    cmpb $0, 8(%rbp)
     je _exit
 
     incb %bl
