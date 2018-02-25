@@ -58,46 +58,48 @@ phdr:
     .quad   0x8
 phdr_size:
 .equ PHDR_SIZE, phdr_size - phdr
-
 .section .text
 .globl _start
-_start:
-    pushq %rbp
-    movq %rsp, %rbp
 
-    decb 8(%rbp)
-    jz _exit
-    
-    movq 24(%rbp), %rbx
-    while:
-        cmpb $0, (%rbx)
-        jne normal
-        
-        decb 8(%rbp)
-        jz line
-
-        movb $0x20, (%rbx)
-        jmp normal
-        
-        line:
-        movb $0x0a, (%rbx)
-
-        normal:
-        leaq (%rbx), %rsi
 _print:
     movb $1, %al
-    movb $1, %dil
-    movb $1, %dl
     syscall
+    ret
 
-    cmpb $0, 8(%rbp)
+_start:
+    movb $1, %dil
+    while:
+        decb (%rsp)
+        jz line
+        movq 16(%rsp,%r9,8), %rsi
+
+        xorq %rdx, %rdx
+        .L01:
+            cmpb $0, (%rsi,%rdx)
+            jz normal
+            incb %dl
+            jmp .L01
+
+        normal:
+        call _print
+
+space:
+movb $0x20, (%rsi)
+jmp .L03
+line:
+movb $0x0a, (%rsi)
+.L03:
+andq $1, %rdx
+call _print
+
+.L02:
+    cmpb $0, (%rsp)
     je _exit
 
-    incb %bl
+    incb %r9b
     jmp while
 
 _exit:
-    popq %rbp
     movb $60, %al
     syscall
 
