@@ -89,7 +89,8 @@ jmp .L03
 line:
 movb $0x0a, (%rsi)
 .L03:
-andq $1, %rdx
+xor %rdx, %rdx
+incb %dl
 call _print
 
 .L02:
