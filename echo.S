@@ -105,4 +105,3 @@ _exit:
 
 filesize:
 .equ FILESIZE, filesize - _start
-
